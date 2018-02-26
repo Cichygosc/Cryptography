@@ -3,15 +3,18 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
-LCG::LCG(size_t modulus, size_t a, size_t c)
+
+LCG::LCG(long long modulus, long long a, long long c)
 	:modulus{modulus}, a{a}, c{c}
 {
 	srand(time(NULL));
-	seed = rand() % modulus;
+	seed = rand() % (modulus - 1) + 1;
+	std::cout << "seed: " << seed << std::endl;
 }
 
-size_t LCG::generateNext()
+long long LCG::generateNext()
 {
 	seed = (a * seed + c) % modulus;
 	return seed;

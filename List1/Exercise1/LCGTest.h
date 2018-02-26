@@ -2,29 +2,35 @@
 #define LCGTEST_H_
 
 #include <vector>
-#include <cstddef>
 
-using std::size_t;
 using std::vector;
 
 class LCGTest
 {
 private:
-	size_t a;
-	size_t c;
-	size_t m;
-	vector<size_t> lcgValues;
-	vector<size_t> determinants;
-	size_t calculateDet(size_t v1, size_t v2, size_t v3, size_t v4);
-	size_t GCD(size_t v1, size_t v2);
+	long long a;
+	long long c;
+	long long m;
+	long long seed;
+	vector<long long> values;
+	bool constantSeries;
+
+private:
+	bool canPredict();
 	void calculateModulus();
-	void calculateConstants(size_t v1, size_t v2, size_t v3);
-	size_t factor(size_t value);
+	void calculateMultiplier();
+	void calculateIncrement();
+	void calculateSeed();
+
+	long long GCD(long long a, long long b);
+	long long gcdExtended(long long a, long long b, long long *x, long long *y);
+	long long modInverse(long long a, long long m);
+	long long modulo(long long a, long long b);
+
 public:
 	LCGTest();
-	void addValue(size_t value);
-	bool canPredict();
-	size_t getNext();
+	void addValue(long long value);
+	long long getNext();
 	void details();
 };
 
