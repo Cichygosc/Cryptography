@@ -1,8 +1,7 @@
 import os, random, struct
 from Crypto.Cipher import AES
 from Crypto import Random
-from base64 import b64encode
-from base64 import b64decode
+from binascii import hexlify, unhexlify
 import numpy as np
 import jks
 import configparser
@@ -67,7 +66,7 @@ def encryptionOracleMode(key, mode):
 	while(1):
 		m = input("Enter text to encrypt: ")
 		m = pad(m)
-		print(b64encode(encryptor.encrypt(m.encode("ascii"))))
+		print(hexlify(encryptor.encrypt(m.encode("ascii"))))
 
 def challengeMode(key, mode):
 	iv = Random.new().read(AES.block_size)
@@ -76,10 +75,11 @@ def challengeMode(key, mode):
 	m2 = input("Enter m2: ")
 	bit = np.random.randint(0, 2)
 	if bit == 0:
-		c = b64encode(encryptor.encrypt(pad(m1).encode("ascii")))
+		c = hexlify(encryptor.encrypt(pad(m1).encode("ascii")))
 	elif bit == 1:
-		c= b64encode(encryptor.encrypt(pad(m2).encode("ascii")))
+		c= hexlify(encryptor.encrypt(pad(m2).encode("ascii")))
 	print(c)
+	print(bit)	
 
 
 def parseType(type):

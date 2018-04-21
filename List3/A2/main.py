@@ -5,12 +5,6 @@ import jks
 import configparser
 import numpy as np
 
-BLOCK_SIZE = 16
-pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * \
-				chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
-
-unpad = lambda s: s[:-ord(s[len(s) - 1])]
-
 def getKey(jks_file, passphrase, key_alias):
 	keystore = jks.KeyStore.load(jks_file, passphrase)
 	sk = keystore.secret_keys[key_alias]
@@ -53,6 +47,7 @@ m2 = b'World'
 
 predicted_next_iv = incIV(used_iv)
 mc = int.from_bytes(b'Hello', sys.byteorder) ^ int.from_bytes(used_iv, sys.byteorder) ^ int.from_bytes(predicted_next_iv, sys.byteorder)
+
 mc_enc = mc.to_bytes(len(m1), sys.byteorder)
 
 iv = incIV(iv)
